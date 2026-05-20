@@ -66,9 +66,12 @@ function Dashboard() {
   };
 
   // Coordinator opt-in state
-  const [isCoordinator, setIsCoordinator] = useState(
-    () => localStorage.getItem("tnvs_is_coordinator") === "true"
-  );
+  const [isCoordinator, setIsCoordinator] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("tnvs_is_coordinator") === "true";
+    }
+    return false;
+  });
   const [copiedLink, setCopiedLink] = useState(false);
 
   const handleLogout = () => {

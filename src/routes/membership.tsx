@@ -75,12 +75,14 @@ function Membership() {
 
   // 1. Form Progress Auto-Saving via LocalStorage
   const [step, setStep] = useState(() => {
-    const saved = localStorage.getItem("tnvs_form_step");
-    return saved ? Math.min(5, Math.max(1, parseInt(saved, 10))) : 1;
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("tnvs_form_step");
+      return saved ? Math.min(5, Math.max(1, parseInt(saved, 10))) : 1;
+    }
+    return 1;
   });
 
   const [form, setForm] = useState(() => {
-    const saved = localStorage.getItem("tnvs_form_data");
     const baseForm = {
       name: search.name || "", 
       mobile: search.mobile || "", 
@@ -95,12 +97,15 @@ function Membership() {
     if (search.name || search.epic) {
       return baseForm;
     }
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        return { ...baseForm, ...parsed };
-      } catch (e) {
-        return baseForm;
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("tnvs_form_data");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          return { ...baseForm, ...parsed };
+        } catch (e) {
+          return baseForm;
+        }
       }
     }
     return baseForm;
