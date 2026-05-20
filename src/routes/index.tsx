@@ -176,6 +176,32 @@ function Home() {
         </div>
       </Section>
 
+      {/* WELCOME VIDEO SECTION */}
+      <Section className="py-12 border-t border-border">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div>
+            <SectionLabel>{t("வரவேற்பு உரை", "Welcome Message")}</SectionLabel>
+            <h2 className="mt-3 font-display text-2xl md:text-3.5xl font-bold text-slate-800 leading-tight">
+              {t("அதிகாரப்பூர்வ வரவேற்பு உரை மற்றும் அறிமுகம்", "Official Welcome Address & Introduction")}
+            </h2>
+            <p className="mt-2 text-xs md:text-sm text-slate-500 font-tamil max-w-xl mx-auto leading-relaxed">
+              {t(
+                "தமிழ்நாடு வணிகர்களின் சங்கமம் அமைப்பின் நோக்கங்கள் மற்றும் சேவைகள் பற்றிய அதிகாரப்பூர்வ நேரடி அறிமுக வீடியோ.",
+                "Watch our official welcome video to learn about the objectives and welfare schemes of the Tamil Nadu Traders association."
+              )}
+            </p>
+          </div>
+          <div className="mt-8 relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl aspect-video bg-slate-950/90 group ring-4 ring-slate-100">
+            <video
+              className="w-full h-full object-cover"
+              controls
+              preload="metadata"
+              src="/welcome_video.mp4"
+            />
+          </div>
+        </div>
+      </Section>
+
       {/* HOW IT WORKS — moved before services so users understand first */}
       <Section className="py-16 border-t border-border">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
