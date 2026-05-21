@@ -4,7 +4,7 @@ import { Section, SectionLabel } from "@/components/Section";
 import { Search, ArrowRight, ArrowLeft, Sparkles, MapPin, Globe, Users, Award, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { WINGS } from "@/data/wings";
-import { ZONE_BREAKDOWN, ConstituencyRecord } from "@/data/zones";
+import { ZONE_BREAKDOWN } from "@/data/zones";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/wings")({
@@ -110,7 +110,7 @@ function Wings() {
   });
 
   return (
-    <div className="relative min-h-screen bg-slate-50/50">
+    <div className="relative min-h-screen">
       {/* Header section with tab switcher */}
       <section className="border-b border-slate-200/60 bg-white">
         <div className="max-w-7xl mx-auto px-4 py-10 md:py-12">
@@ -378,7 +378,7 @@ function Wings() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.15) }}
-                                className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-xs group hover:shadow-md hover:border-primary/45 transition duration-300 flex flex-col justify-between min-h-[190px]"
+                                className="card-base card-interactive group p-5 md:p-6 flex flex-col justify-between min-h-[190px]"
                               >
                                 <div className="space-y-3">
                                   <div className="w-10 h-10 rounded-xl bg-primary/5 text-primary grid place-items-center transition duration-300 group-hover:bg-primary group-hover:text-white">

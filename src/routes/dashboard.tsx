@@ -110,7 +110,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="bg-slate-50/50 min-h-screen">
+    <div className="min-h-screen">
 
       {/* Page Header */}
       <section className="border-b border-slate-200/60 bg-white">

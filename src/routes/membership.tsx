@@ -7,7 +7,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import ownerPhoto from "@/assets/349b584e-1b60-469e-9e5d-8d124cb057cb.png";
 import orgLogo from "@/assets/ChatGPT Image Mar 25, 2026, 05_31_25 PM (1).png";
 import signImg from "@/assets/8bb61dfb-f349-4e0b-8501-560feae9f000.png";
-
+import { FloatingInput, FloatingTextarea, FloatingSelect } from "@/components/FloatingInput";
 import { z } from "zod";
 import { WINGS } from "@/data/wings";
 
@@ -379,7 +379,7 @@ function Membership() {
   };
 
   return (
-    <div className="bg-slate-50/50 min-h-screen">
+    <div className="min-h-screen">
       <section className="border-b border-slate-200/60 bg-white shadow-xs">
         <div className="max-w-5xl mx-auto px-4 py-8 md:py-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -443,61 +443,86 @@ function Membership() {
               {/* Step 1 — Personal */}
               {step===1 && (
                 <Form title="Personal Details" ta="தனிநபர் தகவல்கள்">
-                  <Field label="Full Name / பெயர்">
-                    <input className={inp} value={form.name} onChange={e=>upd("name",e.target.value)} placeholder="As per Aadhaar card" />
-                  </Field>
-                  <Field label="Mobile / கைபேசி">
-                    <input className={inp} value={form.mobile} onChange={e=>upd("mobile",e.target.value)} placeholder="10-digit mobile number" />
-                  </Field>
-                  <Field label="Email / மின்னஞ்சல்">
-                    <input className={inp} type="email" value={form.email} onChange={e=>upd("email",e.target.value)} placeholder="name@example.com" />
-                  </Field>
-                  <Field label="District / மாவட்டம்">
-                    <select className={inp} value={form.district} onChange={e=>upd("district",e.target.value)}>
-                      {DISTRICTS.map(d=><option key={d}>{d}</option>)}
-                    </select>
-                  </Field>
+                  <FloatingInput
+                    label="Full Name / பெயர்"
+                    value={form.name}
+                    onChange={e => upd("name", e.target.value)}
+                    autoComplete="name"
+                  />
+                  <FloatingInput
+                    label="Mobile / கைபேசி"
+                    value={form.mobile}
+                    onChange={e => upd("mobile", e.target.value)}
+                    inputMode="numeric"
+                    maxLength={10}
+                  />
+                  <FloatingInput
+                    label="Email / மின்னஞ்சல்"
+                    type="email"
+                    value={form.email}
+                    onChange={e => upd("email", e.target.value)}
+                    autoComplete="email"
+                  />
+                  <FloatingSelect
+                    label="District / மாவட்டம்"
+                    value={form.district}
+                    onChange={e => upd("district", e.target.value)}
+                  >
+                    {DISTRICTS.map(d => <option key={d}>{d}</option>)}
+                  </FloatingSelect>
                 </Form>
               )}
 
               {/* Step 2 — Business Details */}
               {step===2 && (
                 <Form title="Business Details" ta="வணிக விவரங்கள்">
-                  <Field label="Shop / Business Name (கடை பெயர்)">
-                    <input className={inp} value={form.shop} onChange={e=>upd("shop",e.target.value)} placeholder="e.g. Grace Supermarket" />
-                  </Field>
-                  <Field label="Business Type / வகை">
-                    <select className={inp} value={form.type} onChange={e=>upd("type",e.target.value)}>
-                      {["Retail","Wholesale","Manufacturing","Service","Online"].map(d=><option key={d}>{d}</option>)}
-                    </select>
-                  </Field>
-                  
-                  {/* UX grouped category dropdown mapping */}
-                  <Field label="Wing / பிரிவு (WINGS LIST)">
-                    <select className={inp} value={form.wing} onChange={e=>upd("wing",e.target.value)}>
-                      <option value="">-- Select Wing / பிரிவு --</option>
-                      {WING_CATEGORIES.map(category => (
-                        <optgroup 
-                          key={category.id} 
-                          label={language === "ta" ? category.nameTa : category.nameEn}
-                          className="font-bold text-slate-700 bg-slate-50 py-1"
-                        >
-                          {WINGS.filter(w => category.wings.includes(w.id)).map(w => (
-                            <option key={w.id} value={w.id} className="font-normal text-slate-600 bg-white">
-                              {language === "ta" ? w.nameTa : w.nameEn}
-                            </option>
-                          ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                  </Field>
+                  <FloatingInput
+                    label="Shop / Business Name (கடை பெயர்)"
+                    value={form.shop}
+                    onChange={e => upd("shop", e.target.value)}
+                  />
+                  <FloatingSelect
+                    label="Business Type / வகை"
+                    value={form.type}
+                    onChange={e => upd("type", e.target.value)}
+                  >
+                    {["Retail","Wholesale","Manufacturing","Service","Online"].map(d => <option key={d}>{d}</option>)}
+                  </FloatingSelect>
 
-                  <Field label="Years in Business (அனுபவம்)">
-                    <input className={inp} value={form.years} onChange={e=>upd("years",e.target.value)} placeholder="e.g. 5" />
-                  </Field>
-                  <Field label="Shop Address (முகவரி)" full>
-                    <textarea className={inp+" min-h-[90px] resize-none"} value={form.address} onChange={e=>upd("address",e.target.value)} placeholder="Complete address of your shop front" />
-                  </Field>
+                  <FloatingSelect
+                    label="Wing / பிரிவு"
+                    value={form.wing}
+                    onChange={e => upd("wing", e.target.value)}
+                  >
+                    <option value="">-- Select Wing / பிரிவு --</option>
+                    {WING_CATEGORIES.map(category => (
+                      <optgroup
+                        key={category.id}
+                        label={language === "ta" ? category.nameTa : category.nameEn}
+                      >
+                        {WINGS.filter(w => category.wings.includes(w.id)).map(w => (
+                          <option key={w.id} value={w.id}>
+                            {language === "ta" ? w.nameTa : w.nameEn}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </FloatingSelect>
+
+                  <FloatingInput
+                    label="Years in Business (அனுபவம்)"
+                    value={form.years}
+                    onChange={e => upd("years", e.target.value)}
+                    inputMode="numeric"
+                  />
+                  <div className="md:col-span-2">
+                    <FloatingTextarea
+                      label="Shop Address / முகவரி"
+                      value={form.address}
+                      onChange={e => upd("address", e.target.value)}
+                      rows={3}
+                    />
+                  </div>
                 </Form>
               )}
 

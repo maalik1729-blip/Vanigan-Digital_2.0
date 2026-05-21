@@ -1,4 +1,4 @@
-import { createAPIFileRoute } from "@tanstack/react-start/api";
+import { createFileRoute } from "@tanstack/react-router";
 import mysql from "mysql2/promise";
 import fs from "fs/promises";
 import path from "path";
@@ -15,9 +15,11 @@ async function getConnection() {
   return mysql.createConnection(DB_CONFIG);
 }
 
-export const APIRoute = createAPIFileRoute("/api/voter-search")({
-  GET: async ({ request }) => {
-    const url = new URL(request.url);
+export const APIRoute = createFileRoute("/api/voter-search" as any)({
+  server: {
+    handlers: {
+      GET: async ({ request }: { request: Request }) => {
+        const url = new URL(request.url);
     const epic = url.searchParams.get("epic")?.trim().toUpperCase();
     const mobile = url.searchParams.get("mobile")?.trim();
     const name = url.searchParams.get("name")?.trim();
@@ -80,4 +82,6 @@ export const APIRoute = createAPIFileRoute("/api/voter-search")({
       if (conn) conn.end();
     }
   },
+},
+},
 });

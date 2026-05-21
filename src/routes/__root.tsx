@@ -13,6 +13,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { LenisProvider } from "@/components/LenisProvider";
 import { Toaster } from "sonner";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { ThemeProvider } from "@/hooks/useTheme";
 
 function NotFoundComponent() {
   return (
@@ -83,7 +84,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <RootInner />
+        <ThemeProvider>
+          <RootInner />
+        </ThemeProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );
@@ -100,7 +103,8 @@ function RootInner() {
 
   return (
     <LenisProvider>
-      <div className="min-h-screen flex flex-col">
+      {/* pt-[85px] offsets the fixed navbar (gov-stripe 3px + ticker ~32px + nav row ~50px) */}
+      <div className="min-h-screen flex flex-col pt-[85px]">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:text-sm focus:font-medium">
           Skip to main content
         </a>

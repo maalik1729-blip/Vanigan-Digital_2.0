@@ -11,6 +11,7 @@ import { Section, SectionLabel } from "@/components/Section";
 import { VoterIdCard, type Voter } from "@/components/VoterIdCard";
 import votersData from "@/data/voters.json";
 import { FieldError } from "@/components/FieldError";
+import { Skeleton } from "@/components/Skeleton";
 
 export const Route = createFileRoute("/voter-id")({
   validateSearch: (search: Record<string, unknown>) => {
@@ -37,6 +38,7 @@ function VoterIdPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showForm, setShowForm] = useState(true);
   const [formStep, setFormStep] = useState<1 | 2>(1);
+  const [isCompilingCard, setIsCompilingCard] = useState(false);
 
   const [formData, setFormData] = useState<Partial<Voter>>({
     VOTER_NAME: "",
@@ -144,6 +146,7 @@ function VoterIdPage() {
   const handleSearch = async () => {
     const queryTerm = searchQuery.trim();
     if (!queryTerm) return;
+    setSearchResults([]);
     setIsSearching(true);
     try {
       const params = new URLSearchParams();
@@ -299,11 +302,15 @@ function VoterIdPage() {
       PHOTO_URL: formData.PHOTO_URL,
     };
     
+    setIsCompilingCard(true);
     setSelected(generatedVoter);
     
     setTimeout(() => {
-      cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+      setIsCompilingCard(false);
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }, 800);
   };
 
   const mno = (v: Voter) =>
@@ -477,6 +484,36 @@ function VoterIdPage() {
                       </div>
                     </button>
                   ))}
+                </div>
+              )}
+
+              {/* Search Skeletons */}
+              {isSearching && (
+                <div className="mt-3 border border-border bg-card rounded-md divide-y divide-border overflow-hidden p-3 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 w-full">
+                      <Skeleton className="w-1/3 h-4" />
+                      <span className="text-slate-200">|</span>
+                      <Skeleton className="w-1/4 h-4" />
+                    </div>
+                    <Skeleton className="w-1/4 h-4 text-right" />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 w-full">
+                      <Skeleton className="w-1/4 h-4" />
+                      <span className="text-slate-200">|</span>
+                      <Skeleton className="w-1/3 h-4" />
+                    </div>
+                    <Skeleton className="w-1/5 h-4 text-right" />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2 w-full">
+                      <Skeleton className="w-2/5 h-4" />
+                      <span className="text-slate-200">|</span>
+                      <Skeleton className="w-1/5 h-4" />
+                    </div>
+                    <Skeleton className="w-1/4 h-4 text-right" />
+                  </div>
                 </div>
               )}
             </div>
@@ -706,7 +743,61 @@ function VoterIdPage() {
 
           {/* Card generator panel */}
           <AnimatePresence>
-            {selected && (
+            {isCompilingCard && (
+              <motion.div
+                key="skeleton-generator"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="paper rounded-xl overflow-hidden mt-8 border border-border shadow-sm"
+              >
+                <div className="gov-stripe h-1" />
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+                    <div className="space-y-2 w-1/3">
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/3" />
+                    </div>
+                    <div className="flex gap-2">
+                      <Skeleton className="h-10 w-28" />
+                      <Skeleton className="h-10 w-28" />
+                    </div>
+                  </div>
+                  <div className="grid lg:grid-cols-12 gap-8">
+                    {/* Voter details skeleton */}
+                    <div className="lg:col-span-5 space-y-4">
+                      <Skeleton className="h-4 w-1/3" />
+                      <div className="space-y-3">
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                      </div>
+                    </div>
+                    {/* Voter card templates skeleton */}
+                    <div className="lg:col-span-7 flex flex-col items-center gap-6">
+                      <div className="w-full">
+                        <Skeleton className="h-4 w-1/4 mx-auto mb-2" />
+                        <div className="flex justify-center">
+                          <Skeleton className="h-[210px] w-full max-w-[340px] rounded-xl" />
+                        </div>
+                      </div>
+                      <div className="w-full border-t border-border/60 pt-5">
+                        <Skeleton className="h-4 w-1/4 mx-auto mb-2" />
+                        <div className="flex justify-center">
+                          <Skeleton className="h-[210px] w-full max-w-[340px] rounded-xl" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {(selected && !isCompilingCard) && (
               <motion.div
                 ref={cardRef}
                 key="generator"

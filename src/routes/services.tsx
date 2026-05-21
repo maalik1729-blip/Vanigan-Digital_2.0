@@ -203,7 +203,7 @@ function Services() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50/30">
+    <div className="relative min-h-screen">
       <section className="border-b border-border bg-secondary/40">
         <div className="max-w-7xl mx-auto px-4 py-16">
           <SectionLabel>{t("சேவைகள்", "Services")}</SectionLabel>
@@ -227,7 +227,7 @@ function Services() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {cat.items.map((s) => (
-                <div key={s.e} className="relative paper rounded-xl p-6 group hover:shadow-md hover:border-primary/20 transition-all bg-white border border-slate-200 flex flex-col justify-between min-h-[220px]">
+                <div key={s.e} className="relative card-base card-interactive group p-6 flex flex-col justify-between min-h-[220px]">
                   {s.e === "New Membership" && (
                     <span className="absolute -top-3 left-4 bg-emerald-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm animate-pulse">
                       {t("இங்கே தொடங்கவும் · START HERE", "START HERE")}
@@ -387,7 +387,7 @@ function Services() {
                           Thank you! Your TNVS membership renewal has been processed. Your digital card is active for the current calendar year.
                         </p>
                         <div className="flex justify-center gap-3 pt-4">
-                          <Link to="/voter-id" onClick={closeModal} className="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-primary/95 transition shadow">
+                          <Link to="/voter-id" search={{ q: undefined }} onClick={closeModal} className="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-primary/95 transition shadow">
                             View Stamped Card
                           </Link>
                           <button onClick={closeModal} className="border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-xs hover:bg-slate-50 transition">
