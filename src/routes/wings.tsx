@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Section, SectionLabel } from "@/components/Section";
-import { Search, ArrowRight, ArrowLeft, Sparkles, MapPin, Globe, Users, Award, ShieldCheck, ChevronRight, ChevronDown, Phone, Mail } from "lucide-react";
+import { Search, ArrowRight, ArrowLeft, Sparkles, MapPin, Globe, Users, Award, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { WINGS } from "@/data/wings";
 import { ZONE_BREAKDOWN } from "@/data/zones";
@@ -52,160 +52,6 @@ const DEPARTMENTS = [
   }
 ];
 
-// Deterministic South Indian / Tamil names lists
-const TAMIL_MEN_FIRST_NAMES = [
-  "Arun", "Karthik", "Saravanan", "Senthil", "Venkatesh", "Murugan", "Prabhu", "Vijay", "Ramesh", "Suresh",
-  "Selvam", "Pandian", "Anbarasan", "Muthu", "Rajesh", "Kumar", "Balaji", "Hari", "Ganesh", "Manikandan",
-  "Sundar", "Prakash", "Sivakumar", "Dinesh", "Baskar", "Loganathan", "Kathiravan", "Shanmugam", "Rajarajan",
-  "Elango", "Ranganathan", "Gunasekaran", "Jayakumar", "Thirumurugan", "Senthilvel", "Velmurugan", "Karthikeyan"
-];
-
-const TAMIL_WOMEN_FIRST_NAMES = [
-  "Priya", "Meena", "Abirami", "Kavitha", "Lakshmi", "Deepa", "Divya", "Sindhu", "Anitha", "Kokila",
-  "Revathi", "Gayathri", "Mythili", "Soundarya", "Malathi", "Suganya", "Chitra", "Uma", "Bhavani", "Shanthi",
-  "Saraswathi", "Aruna", "Nandhini", "Radha", "Kalyani", "Geetha", "Vidya", "Sangeetha", "Kokilavani", "Jayanthi"
-];
-
-const TAMIL_LAST_NAMES = [
-  "Kalyanasundaram", "Ramakrishnan", "Subramanian", "Ganesan", "Muthuvel", "Chidambaram", "Karuppasamy",
-  "Swaminathan", "Palani", "Thangaraj", "Sundaram", "Viswanathan", "Arumugam", "Rajendran", "Selvaraj",
-  "Narayanan", "Pandian", "Ramasamy", "Sethuraman", "Raghavan", "Nataraajan", "Vasudevan", "Somalingam"
-];
-
-const TAMIL_MEN_FIRST_NAMES_TA = [
-  "அருண்", "கார்த்திக்", "சரவணன்", "செந்தில்", "வெங்கடேஷ்", "முருகன்", "பிரபு", "விஜய்", "ரமேஷ்", "சுரேஷ்",
-  "செல்வம்", "பாண்டியன்", "அன்பரசன்", "முத்து", "ராஜேஷ்", "குமார்", "பாலாஜி", "ஹரி", "கணேஷ்", "மணிகண்டன்",
-  "சுந்தர்", "பிரகாஷ்", "சிவகுமார்", "தினேஷ்", "பாஸ்கர்", "லோகநாதன்", "கதிரவன்", "சண்முகம்", "ராஜராஜன்",
-  "இளங்கோ", "ரங்கநாதன்", "குணசேகரன்", "ஜெயகுமார்", "திருமுருகன்", "செந்தில்வேல்", "வேல்முருகன்", "கார்த்திகேயன்"
-];
-
-const TAMIL_WOMEN_FIRST_NAMES_TA = [
-  "பிரியா", "மீனா", "அபிராமி", "கவிதா", "லட்சுமி", "தீபா", "திவ்யா", "சிந்து", "அனிதா", "கோகிலா",
-  "ரேவதி", "காயத்ரி", "மைதிலி", "சௌந்தர்யா", "மாலதி", "சுகன்யா", "சித்ரா", "உமா", "பவானி", "சாந்தி",
-  "சரஸ்வதி", "அருணா", "நந்தினி", "ராதா", "கல்யாணி", "கீதா", "வித்யா", "சங்கீதா", "கோகிலவாணி", "ஜெயந்தி"
-];
-
-const TAMIL_LAST_NAMES_TA = [
-  "கல்யாணசுந்தரம்", "ராமகிருஷ்ணன்", "சுப்பிரமணியன்", "கணேசன்", "முத்துவேல்", "சிதம்பரம்", "கருப்பசாமி",
-  "சுவாமிநாதன்", "பழனி", "தங்கராஜ்", "சுந்தரம்", "விஸ்வநாதன்", "ஆறுமுகம்", "ராஜேந்திரன்", "செல்வராஜ்",
-  "நாராயணன்", "பாண்டியன்", "ராமசாமி", "சேதுராமன்", "ராகவன்", "நடராஜன்", "வாசுதேவன்", "சோமலிங்கம்"
-];
-
-const AVATAR_COLORS = [
-  "bg-blue-500 text-white border-blue-600",
-  "bg-emerald-500 text-white border-emerald-600",
-  "bg-violet-500 text-white border-violet-600",
-  "bg-amber-500 text-white border-amber-600",
-  "bg-rose-500 text-white border-rose-600",
-  "bg-indigo-500 text-white border-indigo-600",
-  "bg-teal-500 text-white border-teal-600",
-  "bg-cyan-500 text-white border-cyan-600",
-  "bg-purple-500 text-white border-purple-600"
-];
-
-function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
-}
-
-function getDeterministicRandom(seed: number) {
-  const x = Math.sin(seed) * 10000;
-  return x - Math.floor(x);
-}
-
-interface Officer {
-  roleEn: string;
-  roleTa: string;
-  nameEn: string;
-  nameTa: string;
-  phone: string;
-  email: string;
-  avatarColor: string;
-  verified: boolean;
-  initials: string;
-}
-
-function generateOfficers(district: string, wingId: string, wingNameEn: string, wingNameTa: string): Officer[] {
-  const roles = [
-    { en: "President", ta: "தலைவர்" },
-    { en: "Secretary", ta: "செயலாளர்" },
-    { en: "Treasurer", ta: "பொருளாளர்" }
-  ];
-
-  return roles.map((role, idx) => {
-    const seedStr = `${district}-${wingId}-${idx}`;
-    let seed = hashString(seedStr);
-
-    const isWomanWing = wingId === "women-entrepreneurs";
-    const randGender = getDeterministicRandom(seed);
-    const isWoman = isWomanWing || (randGender < 0.3);
-
-    const firstNamesList = isWoman ? TAMIL_WOMEN_FIRST_NAMES : TAMIL_MEN_FIRST_NAMES;
-    const firstNamesTaList = isWoman ? TAMIL_WOMEN_FIRST_NAMES_TA : TAMIL_MEN_FIRST_NAMES_TA;
-    
-    seed = hashString(seed.toString());
-    const firstNameIdx = Math.floor(getDeterministicRandom(seed) * firstNamesList.length);
-    const firstNameEn = firstNamesList[firstNameIdx];
-    const firstNameTa = firstNamesTaList[firstNameIdx];
-
-    seed = hashString(seed.toString());
-    const lastNameIdx = Math.floor(getDeterministicRandom(seed) * TAMIL_LAST_NAMES.length);
-    const lastNameEn = TAMIL_LAST_NAMES[lastNameIdx];
-    const lastNameTa = TAMIL_LAST_NAMES_TA[lastNameIdx];
-
-    let prefixEn = "";
-    let prefixTa = "";
-    if (wingId === "doctors") {
-      prefixEn = "Dr. ";
-      prefixTa = "டாக்டர். ";
-    } else if (wingId === "lawyers") {
-      prefixEn = "Adv. ";
-      prefixTa = "வழக்கறிஞர். ";
-    } else if (wingId === "chartered-accountants") {
-      prefixEn = "CA ";
-      prefixTa = "சி.ஏ. ";
-    } else if (wingId === "engineers") {
-      prefixEn = "Er. ";
-      prefixTa = "பொறியாளர். ";
-    } else if (wingId === "educators") {
-      prefixEn = "Prof. ";
-      prefixTa = "பேராசிரியர். ";
-    }
-
-    const nameEn = `${prefixEn}${firstNameEn} ${lastNameEn[0]}.`;
-    const nameTa = `${prefixTa}${firstNameTa} ${lastNameTa[0]}.`;
-
-    const prefixes = ["944", "984", "948", "978", "890", "737"];
-    seed = hashString(seed.toString());
-    const phonePrefix = prefixes[Math.floor(getDeterministicRandom(seed) * prefixes.length)];
-    seed = hashString(seed.toString());
-    const phoneSuffix = Math.floor(1000000 + getDeterministicRandom(seed) * 8999999);
-    const phone = `+91 ${phonePrefix} ${phoneSuffix.toString().substring(0, 3)} ${phoneSuffix.toString().substring(3)}`;
-
-    const email = `${firstNameEn.toLowerCase()}.${role.en.toLowerCase()}@vanigarsangamam.org`;
-    const initials = (prefixEn ? prefixEn.replace(".", "").trim() : firstNameEn[0]) + lastNameEn[0];
-
-    seed = hashString(seed.toString());
-    const avatarColor = AVATAR_COLORS[Math.floor(getDeterministicRandom(seed) * AVATAR_COLORS.length)];
-
-    return {
-      roleEn: role.en,
-      roleTa: role.ta,
-      nameEn,
-      nameTa,
-      phone,
-      email,
-      avatarColor,
-      verified: true,
-      initials
-    };
-  });
-}
-
-
 function Wings() {
   const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState<"wings" | "zones">("wings");
@@ -218,163 +64,6 @@ function Wings() {
   const [zoneQuery, setZoneQuery] = useState("");
   const [selectedZone, setSelectedZone] = useState<string>("all");
   const [selectedDistrict, setSelectedDistrict] = useState<string>("all");
-
-  // Collapsible tree expanded nodes state
-  const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({});
-
-  // Tree data structure grouped by Zone and District
-  const treeData = useMemo(() => {
-    const zonesMap: Record<string, Set<string>> = {};
-    ZONE_BREAKDOWN.forEach(item => {
-      if (selectedZone !== "all" && item.zone !== selectedZone) return;
-      if (selectedDistrict !== "all" && item.district !== selectedDistrict) return;
-
-      if (!zonesMap[item.zone]) {
-        zonesMap[item.zone] = new Set();
-      }
-      zonesMap[item.zone].add(item.district);
-    });
-
-    return Object.entries(zonesMap).map(([zoneName, districtsSet]) => ({
-      zoneName,
-      districts: Array.from(districtsSet).sort()
-    })).sort((a, b) => a.zoneName.localeCompare(b.zoneName));
-  }, [selectedZone, selectedDistrict]);
-
-  // Compute search matches and expand paths automatically
-  const getSearchMatches = useMemo(() => {
-    const term = zoneQuery.toLowerCase().trim();
-    if (!term) return { visibleNodes: null, autoExpanded: null };
-
-    const visibleNodes = new Set<string>();
-    const autoExpanded = new Set<string>();
-
-    treeData.forEach(({ zoneName, districts }) => {
-      let zoneMatches = zoneName.toLowerCase().includes(term);
-
-      districts.forEach(district => {
-        let districtMatches = district.toLowerCase().includes(term);
-
-        DEPARTMENTS.forEach(dept => {
-          let deptMatches = dept.nameEn.toLowerCase().includes(term) || dept.nameTa.toLowerCase().includes(term);
-
-          const deptWings = WINGS.filter(w => dept.wings.includes(w.id));
-          deptWings.forEach(wing => {
-            let wingMatches = wing.nameEn.toLowerCase().includes(term) || wing.nameTa.toLowerCase().includes(term);
-
-            const officers = generateOfficers(district, wing.id, wing.nameEn, wing.nameTa);
-            const officerMatches = officers.some(off =>
-              off.nameEn.toLowerCase().includes(term) ||
-              off.nameTa.toLowerCase().includes(term) ||
-              off.email.toLowerCase().includes(term) ||
-              off.phone.toLowerCase().includes(term)
-            );
-
-            if (wingMatches || officerMatches) {
-              const wingKey = `wing:${zoneName}:${district}:${dept.id}:${wing.id}`;
-              const deptKey = `dept:${zoneName}:${district}:${dept.id}`;
-              const distKey = `dist:${zoneName}:${district}`;
-              const zoneKey = `zone:${zoneName}`;
-
-              visibleNodes.add(wingKey);
-              visibleNodes.add(deptKey);
-              visibleNodes.add(distKey);
-              visibleNodes.add(zoneKey);
-
-              autoExpanded.add(deptKey);
-              autoExpanded.add(distKey);
-              autoExpanded.add(zoneKey);
-              if (officerMatches) {
-                autoExpanded.add(wingKey);
-              }
-            }
-          });
-
-          if (deptMatches) {
-            const deptKey = `dept:${zoneName}:${district}:${dept.id}`;
-            const distKey = `dist:${zoneName}:${district}`;
-            const zoneKey = `zone:${zoneName}`;
-
-            visibleNodes.add(deptKey);
-            visibleNodes.add(distKey);
-            visibleNodes.add(zoneKey);
-
-            autoExpanded.add(distKey);
-            autoExpanded.add(zoneKey);
-
-            const deptWings = WINGS.filter(w => dept.wings.includes(w.id));
-            deptWings.forEach(wing => {
-              visibleNodes.add(`wing:${zoneName}:${district}:${dept.id}:${wing.id}`);
-            });
-          }
-        });
-
-        if (districtMatches) {
-          const distKey = `dist:${zoneName}:${district}`;
-          const zoneKey = `zone:${zoneName}`;
-
-          visibleNodes.add(distKey);
-          visibleNodes.add(zoneKey);
-
-          autoExpanded.add(zoneKey);
-
-          DEPARTMENTS.forEach(dept => {
-            visibleNodes.add(`dept:${zoneName}:${district}:${dept.id}`);
-            const deptWings = WINGS.filter(w => dept.wings.includes(w.id));
-            deptWings.forEach(wing => {
-              visibleNodes.add(`wing:${zoneName}:${district}:${dept.id}:${wing.id}`);
-            });
-          });
-        }
-      });
-
-      if (zoneMatches) {
-        const zoneKey = `zone:${zoneName}`;
-        visibleNodes.add(zoneKey);
-
-        districts.forEach(district => {
-          visibleNodes.add(`dist:${zoneName}:${district}`);
-          DEPARTMENTS.forEach(dept => {
-            visibleNodes.add(`dept:${zoneName}:${district}:${dept.id}`);
-            const deptWings = WINGS.filter(w => dept.wings.includes(w.id));
-            deptWings.forEach(wing => {
-              visibleNodes.add(`wing:${zoneName}:${district}:${dept.id}:${wing.id}`);
-            });
-          });
-        });
-      }
-    });
-
-    return { visibleNodes, autoExpanded };
-  }, [treeData, zoneQuery]);
-
-  const handleToggle = (nodeKey: string) => {
-    setExpandedNodes(prev => {
-      const currentVal = getSearchMatches.autoExpanded 
-        ? (prev[nodeKey] !== undefined ? prev[nodeKey] : getSearchMatches.autoExpanded.has(nodeKey))
-        : !!prev[nodeKey];
-      return { ...prev, [nodeKey]: !currentVal };
-    });
-  };
-
-  const isExpanded = (nodeKey: string) => {
-    if (expandedNodes[nodeKey] !== undefined) {
-      return expandedNodes[nodeKey];
-    }
-    if (getSearchMatches.autoExpanded) {
-      return getSearchMatches.autoExpanded.has(nodeKey);
-    }
-    return false;
-  };
-
-  const isVisible = (nodeKey: string) => {
-    if (getSearchMatches.visibleNodes) {
-      return getSearchMatches.visibleNodes.has(nodeKey);
-    }
-    return true;
-  };
-
-  const isTreeEmpty = treeData.length === 0 || (zoneQuery.trim() !== "" && getSearchMatches.visibleNodes && getSearchMatches.visibleNodes.size === 0);
 
   // Unique Zones list
   const uniqueZones = Array.from(new Set(ZONE_BREAKDOWN.map(item => item.zone)));
@@ -391,6 +80,8 @@ function Wings() {
   // Total statistics for Zones breakdown
   const statsZonesCount = uniqueZones.length;
   const statsDistrictsCount = Array.from(new Set(ZONE_BREAKDOWN.map(item => item.district))).length;
+  const statsACCount = ZONE_BREAKDOWN.length;
+  const statsVotersSum = ZONE_BREAKDOWN.reduce((sum, item) => sum + item.total, 0);
 
   // Filter wings
   const filteredWings = WINGS.filter((w) => {
@@ -709,9 +400,9 @@ function Wings() {
           </div>
         ) : (
           <div>
-            {isTreeEmpty ? (
+            {filteredZones.length === 0 ? (
               <div className="text-center py-16 bg-white border border-slate-250/60 rounded-2xl p-6 shadow-xs max-w-md mx-auto">
-                <div className="text-slate-400 text-sm font-semibold">{t("முடிவுகள் எதுவும் காணப்படவில்லை.", "No matching results found.")}</div>
+                <div className="text-slate-400 text-sm font-semibold">{t("தொகுதிகள் எதுவும் காணப்படவில்லை.", "No matching constituencies found.")}</div>
                 <button 
                   onClick={() => {
                     setZoneQuery("");
@@ -724,283 +415,105 @@ function Wings() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-6">
-                {treeData.map(({ zoneName, districts }) => {
-                  const zoneKey = `zone:${zoneName}`;
-                  if (!isVisible(zoneKey)) return null;
-
-                  const zoneExpanded = isExpanded(zoneKey);
-                  const districtCount = districts.length;
-
-                  return (
-                    <div
-                      key={zoneKey}
-                      className={`bg-white border border-slate-200/80 rounded-2xl shadow-xs overflow-hidden transition-all duration-300 ${
-                        zoneExpanded ? "ring-4 ring-primary/5 border-primary/40 shadow-md" : "hover:border-slate-350"
-                      }`}
-                    >
-                      {/* Zone Header */}
-                      <button
-                        onClick={() => handleToggle(zoneKey)}
-                        className="w-full text-left px-5 py-4 md:px-6 md:py-5 flex items-center justify-between bg-slate-50/50 hover:bg-slate-50 transition cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-xl transition-all duration-200 ${zoneExpanded ? "bg-primary text-white shadow-xs" : "bg-slate-100 text-slate-500"}`}>
-                            <Globe className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h3 className="font-display font-bold text-sm md:text-base text-slate-800 tracking-wide">
-                              {zoneName}
-                            </h3>
-                            <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400 mt-0.5">
-                              {t(`${districtCount} மாவட்டங்கள்`, `${districtCount} Districts Covered`)}
-                            </p>
-                          </div>
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+                {/* Mobile Grid Layout */}
+                <div className="block md:hidden divide-y divide-slate-100">
+                  {filteredZones.slice(0, 100).map((item) => (
+                    <div key={`${item.ac_no}-${item.constituency}`} className="p-4 space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <div className="text-xxs font-bold text-slate-400 tracking-wider">AC #{item.ac_no}</div>
+                          <h4 className="font-bold text-sm text-slate-800 font-display leading-tight">{item.constituency}</h4>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xxs font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                            {t("மண்டலம்", "Zone")}
-                          </span>
-                          <ChevronDown
-                            className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${
-                              zoneExpanded ? "transform rotate-180" : ""
-                            }`}
-                          />
-                        </div>
-                      </button>
-
-                      {/* Zone Content: Districts */}
-                      <AnimatePresence initial={false}>
-                        {zoneExpanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.25 }}
-                            className="border-t border-slate-150/80 px-4 py-4 md:px-6 md:py-6 bg-white space-y-4 relative overflow-hidden"
-                          >
-                            {/* Vertical connector line for tree blueprint */}
-                            <div className="absolute left-6 top-0 bottom-6 w-0.5 bg-slate-100" />
-
-                            {districts.map((district) => {
-                              const distKey = `dist:${zoneName}:${district}`;
-                              if (!isVisible(distKey)) return null;
-
-                              const distExpanded = isExpanded(distKey);
-
-                              return (
-                                <div key={distKey} className="relative pl-6">
-                                  {/* Horizontal line connector */}
-                                  <div className="absolute left-0 top-5 w-5 h-0.5 bg-slate-200" />
-
-                                  <div className={`border rounded-xl shadow-xxs transition duration-200 ${
-                                    distExpanded ? "border-slate-300 shadow-sm bg-slate-50/20" : "border-slate-200 hover:border-slate-350 bg-white"
-                                  }`}>
-                                    {/* District Header */}
-                                    <button
-                                      onClick={() => handleToggle(distKey)}
-                                      className="w-full text-left px-4 py-3.5 flex items-center justify-between cursor-pointer"
-                                    >
-                                      <div className="flex items-center gap-2.5">
-                                        <MapPin className={`w-4 h-4 ${distExpanded ? "text-primary" : "text-slate-400"}`} />
-                                        <span className="font-display font-bold text-xs md:text-sm text-slate-700 uppercase tracking-wide">
-                                          {district}
-                                        </span>
-                                      </div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full">
-                                          {t("மாவட்டம்", "District")}
-                                        </span>
-                                        <ChevronDown
-                                          className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                                            distExpanded ? "transform rotate-180" : ""
-                                          }`}
-                                        />
-                                      </div>
-                                    </button>
-
-                                    {/* District Content: Departments */}
-                                    {distExpanded && (
-                                      <div className="border-t border-slate-150 p-4 space-y-3 bg-white/60 relative">
-                                        {/* Inner Vertical line connector */}
-                                        <div className="absolute left-6 top-0 bottom-6 w-0.5 bg-slate-100" />
-
-                                        {DEPARTMENTS.map((dept) => {
-                                          const deptKey = `dept:${zoneName}:${district}:${dept.id}`;
-                                          if (!isVisible(deptKey)) return null;
-
-                                          const deptExpanded = isExpanded(deptKey);
-                                          const deptWingsList = WINGS.filter(w => dept.wings.includes(w.id));
-
-                                          // Color mapping for departments
-                                          const deptColors: Record<string, { bg: string, text: string, accent: string, border: string }> = {
-                                            professional: { bg: "bg-violet-50/70", text: "text-violet-750", accent: "bg-violet-600", border: "border-violet-100" },
-                                            agricultural: { bg: "bg-emerald-50/70", text: "text-emerald-750", accent: "bg-emerald-600", border: "border-emerald-100" },
-                                            industrial: { bg: "bg-amber-50/70", text: "text-amber-750", accent: "bg-amber-600", border: "border-amber-100" },
-                                            public: { bg: "bg-blue-50/70", text: "text-blue-750", accent: "bg-blue-600", border: "border-blue-100" }
-                                          };
-                                          const colors = deptColors[dept.id] || { bg: "bg-slate-50", text: "text-slate-750", accent: "bg-slate-650", border: "border-slate-100" };
-
-                                          return (
-                                            <div key={deptKey} className="relative pl-6">
-                                              {/* Horizontal connector to Department */}
-                                              <div className="absolute left-0 top-5.5 w-5 h-0.5 bg-slate-200" />
-
-                                              <div className={`border rounded-lg overflow-hidden transition-all duration-200 ${
-                                                deptExpanded ? "border-slate-250 shadow-xxs bg-white" : "border-slate-150 bg-white"
-                                              }`}>
-                                                {/* Department Header */}
-                                                <button
-                                                  onClick={() => handleToggle(deptKey)}
-                                                  className={`w-full text-left px-3.5 py-3 flex items-center justify-between cursor-pointer ${colors.bg}`}
-                                                >
-                                                  <div className="flex items-center gap-2">
-                                                    <div className={`w-1.5 h-5 rounded-full ${colors.accent}`} />
-                                                    <span className={`font-display font-extrabold text-xs leading-none ${colors.text}`}>
-                                                      {language === "ta" ? dept.nameTa : dept.nameEn}
-                                                    </span>
-                                                  </div>
-                                                  <div className="flex items-center gap-2">
-                                                    <span className="text-[9px] font-bold px-1.5 py-0.5 bg-white/80 text-slate-550 border border-slate-200/50 rounded-md">
-                                                      {t(`${deptWingsList.length} பிரிவுகள்`, `${deptWingsList.length} Wings`)}
-                                                    </span>
-                                                    <ChevronDown
-                                                      className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                                                        deptExpanded ? "transform rotate-180" : ""
-                                                      }`}
-                                                    />
-                                                  </div>
-                                                </button>
-
-                                                {/* Department Content: Wings */}
-                                                {deptExpanded && (
-                                                  <div className="p-3.5 space-y-2 bg-white relative">
-                                                    {/* Deep connector line */}
-                                                    <div className="absolute left-6 top-0 bottom-6 w-0.5 bg-slate-100" />
-
-                                                    {deptWingsList.map((wing) => {
-                                                      const wingKey = `wing:${zoneName}:${district}:${dept.id}:${wing.id}`;
-                                                      if (!isVisible(wingKey)) return null;
-
-                                                      const wingExpanded = isExpanded(wingKey);
-                                                      const WingIcon = wing.icon;
-
-                                                      return (
-                                                        <div key={wingKey} className="relative pl-6">
-                                                          {/* Horizontal connector to Wing */}
-                                                          <div className="absolute left-0 top-5 w-5 h-0.5 bg-slate-200" />
-
-                                                          <div className={`border rounded-lg overflow-hidden transition-all duration-200 ${
-                                                            wingExpanded ? "border-primary/30 bg-primary/2.5" : "border-slate-150 bg-white hover:bg-slate-50/20"
-                                                          }`}>
-                                                            {/* Wing Title Header */}
-                                                            <button
-                                                              onClick={() => handleToggle(wingKey)}
-                                                              className="w-full text-left px-3 py-2.5 flex items-center justify-between cursor-pointer"
-                                                            >
-                                                              <div className="flex items-center gap-2.5">
-                                                                <div className={`w-7 h-7 rounded-lg grid place-items-center transition-all ${
-                                                                  wingExpanded ? "bg-primary text-white" : "bg-slate-100 text-slate-500"
-                                                                }`}>
-                                                                  <WingIcon className="w-3.5 h-3.5" />
-                                                                </div>
-                                                                <h4 className="font-display font-bold text-xxs md:text-xs text-slate-750">
-                                                                  {language === "ta" ? wing.nameTa : wing.nameEn}
-                                                                </h4>
-                                                              </div>
-                                                              <div className="flex items-center gap-2">
-                                                                <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-100 text-slate-500 rounded-md">
-                                                                  {t("3 அதிகாரிகள்", "3 Officers")}
-                                                                </span>
-                                                                <ChevronDown
-                                                                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-250 ${
-                                                                    wingExpanded ? "transform rotate-180" : ""
-                                                                  }`}
-                                                                />
-                                                              </div>
-                                                            </button>
-
-                                                            {/* Wing Content: Active Officers */}
-                                                            {wingExpanded && (
-                                                              <div className="p-3 bg-slate-50/30 border-t border-slate-100">
-                                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                                                  {generateOfficers(district, wing.id, wing.nameEn, wing.nameTa).map((officer, oIdx) => (
-                                                                    <div
-                                                                      key={`${wingKey}-officer-${oIdx}`}
-                                                                      className="flex flex-col justify-between p-3 border border-slate-200/80 rounded-xl bg-white hover:border-slate-300 transition shadow-xxs relative overflow-hidden"
-                                                                    >
-                                                                      {/* Accent bar by role */}
-                                                                      <div className={`absolute top-0 left-0 right-0 h-1 ${
-                                                                        oIdx === 0 ? "bg-blue-500" : oIdx === 1 ? "bg-emerald-500" : "bg-amber-500"
-                                                                      }`} />
-
-                                                                      <div className="flex items-start gap-2.5 mt-1">
-                                                                        <div className={`w-9 h-9 rounded-full flex items-center justify-center font-display font-extrabold text-[10px] tracking-wide shrink-0 border shadow-xxs ${officer.avatarColor}`}>
-                                                                          {officer.initials}
-                                                                        </div>
-                                                                        <div className="min-w-0 flex-1">
-                                                                          <div className="flex items-center gap-1">
-                                                                            <span className={`text-[8px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
-                                                                              oIdx === 0 
-                                                                                ? "bg-blue-50 text-blue-600 border border-blue-100" 
-                                                                                : oIdx === 1 
-                                                                                  ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-                                                                                  : "bg-amber-50 text-amber-600 border border-amber-100"
-                                                                            }`}>
-                                                                              {language === "ta" ? officer.roleTa : officer.roleEn}
-                                                                            </span>
-                                                                            <ShieldCheck className="w-3.5 h-3.5 text-blue-500 fill-blue-50 animate-pulse" />
-                                                                          </div>
-                                                                          <h5 className="font-display font-bold text-xxs md:text-xs text-slate-800 mt-1 truncate animate-fade-in" title={language === "ta" ? officer.nameTa : officer.nameEn}>
-                                                                            {language === "ta" ? officer.nameTa : officer.nameEn}
-                                                                          </h5>
-                                                                        </div>
-                                                                      </div>
-
-                                                                      {/* Contact Details with custom-designed micro-buttons */}
-                                                                      <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex flex-col gap-1.5">
-                                                                        <a
-                                                                          href={`tel:${officer.phone.replace(/\s+/g, "")}`}
-                                                                          className="flex items-center gap-1.5 text-[10px] text-slate-550 hover:text-primary transition font-semibold"
-                                                                        >
-                                                                          <Phone className="w-3 h-3 text-slate-400" />
-                                                                          <span className="tabular-nums truncate">{officer.phone}</span>
-                                                                        </a>
-                                                                        <a
-                                                                          href={`mailto:${officer.email}`}
-                                                                          className="flex items-center gap-1.5 text-[10px] text-slate-550 hover:text-primary transition font-semibold"
-                                                                        >
-                                                                          <Mail className="w-3 h-3 text-slate-400" />
-                                                                          <span className="truncate" title={officer.email}>{officer.email}</span>
-                                                                        </a>
-                                                                      </div>
-                                                                    </div>
-                                                                  ))}
-                                                                </div>
-                                                              </div>
-                                                            )}
-                                                          </div>
-                                                        </div>
-                                                      );
-                                                    })}
-                                                  </div>
-                                                )}
-                                              </div>
-                                            </div>
-                                          );
-                                        })}
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                        <span className="text-xxs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                          {item.zone}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xxs text-slate-500 font-semibold">
+                        <span>{t("மாவட்டம்", "District")}: {item.district}</span>
+                        <span className="text-slate-800 font-bold">{t("மொத்தம்", "Total")}: {item.total.toLocaleString()}</span>
+                      </div>
+                      {/* Gender breakdown bar */}
+                      {(() => {
+                        const malePct = Math.round((item.male / item.total) * 100);
+                        const femalePct = 100 - malePct;
+                        return (
+                          <div className="space-y-1">
+                            <div className="flex justify-between text-[10px] text-slate-400">
+                              <span>M: {malePct}%</span>
+                              <span>F: {femalePct}%</span>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex">
+                              <div className="bg-primary h-full" style={{ width: `${malePct}%` }} />
+                              <div className="bg-rose-400 h-full" style={{ width: `${femalePct}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
-                  );
-                })}
+                  ))}
+                  {filteredZones.length > 100 && (
+                    <div className="p-4 text-center text-xs text-slate-400 bg-slate-50 font-semibold font-tamil">
+                      {t(`மேலும் ${filteredZones.length - 100} தொகுதிகள் உள்ளன...`, `And ${filteredZones.length - 100} more constituencies matches...`)}
+                    </div>
+                  )}
+                </div>
+
+                {/* Desktop Responsive Table Layout */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50 border-b border-slate-200 text-xxs uppercase tracking-wider text-slate-400 font-bold">
+                        <th className="py-3 px-5 w-20">AC No</th>
+                        <th className="py-3 px-5">{t("சட்டமன்ற தொகுதி", "Constituency")}</th>
+                        <th className="py-3 px-5">{t("மாவட்டம்", "District")}</th>
+                        <th className="py-3 px-5">{t("மண்டலம்", "Zone")}</th>
+                        <th className="py-3 px-5 w-32">{t("பாலின விகிதம் (ஆண் / பெண்)", "Gender Ratio (M / F)")}</th>
+                        <th className="py-3 px-5 text-right w-36">{t("மொத்த வாக்காளர்கள்", "Total Voters")}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-xs md:text-sm text-slate-650">
+                      {filteredZones.slice(0, 100).map((item) => {
+                        const malePct = Math.round((item.male / item.total) * 100);
+                        const femalePct = 100 - malePct;
+                        return (
+                          <tr key={`${item.ac_no}-${item.constituency}`} className="hover:bg-slate-50/50 transition">
+                            <td className="py-3.5 px-5 font-bold text-slate-400 tabular-nums">#{item.ac_no}</td>
+                            <td className="py-3.5 px-5 font-bold font-display text-slate-800">{item.constituency}</td>
+                            <td className="py-3.5 px-5 font-semibold text-slate-600">{item.district}</td>
+                            <td className="py-3.5 px-5">
+                              <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                {item.zone}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-5">
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-[10px] text-slate-400 font-semibold">
+                                  <span>{malePct}%</span>
+                                  <span>{femalePct}%</span>
+                                </div>
+                                <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex" title={`Male: ${item.male.toLocaleString()} | Female: ${item.female.toLocaleString()}`}>
+                                  <div className="bg-primary h-full" style={{ width: `${malePct}%` }} />
+                                  <div className="bg-rose-400 h-full" style={{ width: `${femalePct}%` }} />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-5 text-right font-bold text-slate-800 tabular-nums">
+                              {item.total.toLocaleString()}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      {filteredZones.length > 100 && (
+                        <tr>
+                          <td colSpan={6} className="py-4 text-center text-xs text-slate-450 bg-slate-50 font-semibold font-tamil">
+                            {t(`மேலும் ${filteredZones.length - 100} சட்டமன்ற தொகுதிகள் உள்ளன...`, `And ${filteredZones.length - 100} more assembly constituencies matches...`)}
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
