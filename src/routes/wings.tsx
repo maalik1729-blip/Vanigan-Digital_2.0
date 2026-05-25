@@ -120,10 +120,10 @@ function Wings() {
             </Link>
           </div>
 
-          <div className="flex border-b border-slate-200 mb-8">
+          <div className="flex border-b border-slate-200 mb-8 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setActiveTab("wings")}
-              className={`pb-4 px-6 font-display text-sm md:text-base font-bold transition-all relative cursor-pointer ${
+              className={`flex-1 sm:flex-none pb-4 px-3 sm:px-6 font-display text-xs sm:text-sm md:text-base font-bold transition-all relative cursor-pointer whitespace-nowrap text-center ${
                 activeTab === "wings" ? "text-primary" : "text-slate-400 hover:text-slate-600"
               }`}
             >
@@ -137,7 +137,7 @@ function Wings() {
             </button>
             <button
               onClick={() => setActiveTab("zones")}
-              className={`pb-4 px-6 font-display text-sm md:text-base font-bold transition-all relative cursor-pointer ${
+              className={`flex-1 sm:flex-none pb-4 px-3 sm:px-6 font-display text-xs sm:text-sm md:text-base font-bold transition-all relative cursor-pointer whitespace-nowrap text-center ${
                 activeTab === "zones" ? "text-primary" : "text-slate-400 hover:text-slate-600"
               }`}
             >

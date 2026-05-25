@@ -29,9 +29,9 @@ function Contact() {
   return (
     <div>
       <section className="border-b border-border bg-secondary/40">
-        <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
           <SectionLabel>Contact · தொடர்பு</SectionLabel>
-          <h1 className="mt-4 font-display text-4xl md:text-5xl font-semibold">We're here to help.</h1>
+          <h1 className="mt-4 font-display text-3xl md:text-5xl font-semibold">We're here to help.</h1>
           <p className="font-tamil mt-3 text-foreground/75">எந்த உதவிக்கும் தயங்காமல் தொடர்பு கொள்ளுங்கள்.</p>
         </div>
       </section>

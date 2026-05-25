@@ -288,7 +288,7 @@ function Home() {
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <ScrollReveal direction="up" blur>
             <SectionLabel>{t("வரவேற்பு உரை", "Welcome Message")}</SectionLabel>
-            <h2 className="mt-3 font-display text-2xl md:text-3.5xl font-bold text-slate-800 leading-tight">
+            <h2 className="mt-3 font-display text-2xl md:text-3xl font-bold text-slate-800 leading-tight">
               {t("அதிகாரப்பூர்வ வரவேற்பு உரை மற்றும் அறிமுகம்", "Official Welcome Address & Introduction")}
             </h2>
             <p className="mt-2 text-xs md:text-sm text-slate-500 font-tamil max-w-xl mx-auto leading-relaxed">
@@ -338,7 +338,7 @@ function Home() {
               key={s.e}
               className="sticky w-full"
               style={{
-                top: `${96 + idx * 32}px`,
+                top: `${112 + idx * 32}px`,
                 zIndex: idx + 10,
               }}
             >
@@ -432,7 +432,7 @@ function Home() {
       {/* CTA */}
       <Section className="py-16">
         <ScrollReveal direction="scale" duration={0.7} className="w-full">
-          <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-10 md:p-14">
+          <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-6 sm:p-10 md:p-14">
             <div className="absolute inset-0 opacity-10 bg-black/20" aria-hidden="true" />
             <div className="relative max-w-2xl">
               <SectionLabel>

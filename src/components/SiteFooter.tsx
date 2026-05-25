@@ -9,10 +9,10 @@ export function SiteFooter() {
       {/* Saffron/Gold stripe */}
       <div className="gov-stripe h-[3px]" aria-hidden="true" />
       
-      <div className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
         
         {/* Main Logo section */}
-        <div className="md:col-span-2 space-y-4">
+        <div className="sm:col-span-2 md:col-span-2 space-y-4">
           <h3 className="font-display text-xl font-bold text-white">Tamil Nadu Vanigargalin Sangamam</h3>
           <div className="font-tamil text-xs text-slate-300 mt-1">தமிழ்நாடு வணிகர்களின் சங்கமம்</div>
           

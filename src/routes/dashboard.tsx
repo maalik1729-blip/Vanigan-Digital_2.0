@@ -174,7 +174,7 @@ function Dashboard() {
           </div>
 
           {/* Large Serif Headline with Highlighted Loan Keywords */}
-          <h1 className="mt-5 font-serif text-2xl md:text-4.5xl font-extrabold text-white leading-tight max-w-3xl">
+          <h1 className="mt-5 font-serif text-2xl md:text-4xl font-extrabold text-white leading-tight max-w-3xl">
             {language === "ta" ? (
               <>
                 வட்டியில்லா <span className="text-amber-400 drop-shadow-[0_2px_10px_rgba(251,191,36,0.3)] select-all">கடன்</span> பெற்று உங்கள் தொழிலை வளர்க்கவும்.

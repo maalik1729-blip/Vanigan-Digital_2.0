@@ -16,9 +16,9 @@ function About() {
   return (
     <div>
       <section className="border-b border-border bg-secondary/40">
-        <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
           <SectionLabel>About · எங்களைப் பற்றி</SectionLabel>
-          <h1 className="mt-4 font-display text-4xl md:text-5xl font-semibold max-w-3xl">A century-old movement, a modern portal.</h1>
+          <h1 className="mt-4 font-display text-3xl md:text-5xl font-semibold max-w-3xl">A century-old movement, a modern portal.</h1>
           <p className="font-tamil mt-4 text-xl text-foreground/75 max-w-3xl">தமிழ்நாடு வணிகர்களின் ஒற்றுமை — ஒரு பாரம்பரியம், ஒரு பொறுப்பு.</p>
         </div>
       </section>

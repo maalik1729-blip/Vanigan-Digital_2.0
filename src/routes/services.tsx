@@ -205,9 +205,9 @@ function Services() {
   return (
     <div className="relative min-h-screen">
       <section className="border-b border-border bg-secondary/40">
-        <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
           <SectionLabel>{t("சேவைகள்", "Services")}</SectionLabel>
-          <h1 className="mt-4 font-display text-4xl md:text-5xl font-semibold max-w-3xl">
+          <h1 className="mt-4 font-display text-3xl md:text-5xl font-semibold max-w-3xl">
             {t("அனைத்து வணிகர்களுக்காகவும், அனைத்து மாவட்டங்களிலும் உருவாக்கப்பட்டது.", "Built for every vanigar, across every district.")}
           </h1>
           <p className="mt-4 text-muted-foreground max-w-2xl font-tamil text-[15px] leading-relaxed">

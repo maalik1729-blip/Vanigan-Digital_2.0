@@ -447,19 +447,43 @@ function Membership() {
         
         {/* Sleek Horizontal badges Stepper (Timeline) */}
         <div className="mb-10 bg-white rounded-2xl border border-slate-200/60 p-4 md:p-5 shadow-xs">
-          <div className="relative flex items-center justify-between overflow-x-auto pb-2 gap-4">
-            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-slate-100 -translate-y-1/2 hidden md:block" />
-            {STEPS.map((s, i) => {
+
+          {/* Mobile: Compact progress bar + current step label */}
+          <div className="sm:hidden">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex-1 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="bg-primary h-full rounded-full transition-all duration-500"
+                  style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
+                />
+              </div>
+              <span className="text-xs font-bold text-slate-500 shrink-0 tabular-nums">{step} / {STEPS.length}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full grid place-items-center text-sm font-bold border-2 border-primary text-primary bg-white shadow-sm ring-4 ring-primary/5 shrink-0">
+                {step}
+              </div>
+              <div>
+                <div className="text-sm font-bold text-primary">{STEPS[step - 1]?.t}</div>
+                <div className="text-xs font-tamil text-primary/70">{STEPS[step - 1]?.ta}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* sm+: Full horizontal stepper */}
+          <div className="relative hidden sm:flex items-center justify-between gap-3 md:gap-4">
+            <div className="absolute top-5 left-0 right-0 h-0.5 bg-slate-100 -translate-y-1/2 hidden md:block" />
+            {STEPS.map((s) => {
               const done = step > s.n, active = step === s.n;
               return (
                 <div key={s.n} className="flex items-center shrink-0 relative z-10">
-                  <div className="flex flex-col items-center min-w-[72px]">
-                    <div 
-                      className={`w-10 h-10 rounded-full grid place-items-center text-sm font-semibold border-2 transition duration-300 ${
-                        done 
-                          ? "bg-primary text-white border-primary shadow-xs" 
-                          : active 
-                            ? "border-primary text-primary bg-white shadow-md ring-4 ring-primary/5" 
+                  <div className="flex flex-col items-center min-w-[68px] md:min-w-[72px]">
+                    <div
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full grid place-items-center text-sm font-semibold border-2 transition duration-300 ${
+                        done
+                          ? "bg-primary text-white border-primary shadow-xs"
+                          : active
+                            ? "border-primary text-primary bg-white shadow-md ring-4 ring-primary/5"
                             : "border-slate-200 text-slate-400 bg-white"
                       }`}
                     >

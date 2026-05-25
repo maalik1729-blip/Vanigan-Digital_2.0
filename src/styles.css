@@ -513,6 +513,20 @@
     animation: skeleton-shimmer 1.5s infinite linear;
   }
 
+  /* === CUSTOM SIZE UTILITIES === */
+  .text-xxs {
+    font-size: 0.625rem; /* 10px */
+    line-height: 1rem;
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* === TEXT GRADIENT ANIMATION === */
   @keyframes text-gradient {
     0% { background-position: 0% 50%; }
