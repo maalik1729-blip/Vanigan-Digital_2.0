@@ -13,7 +13,6 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "sonner";
 import { LanguageProvider } from "@/hooks/useLanguage";
-import { ThemeProvider } from "@/hooks/useTheme";
 
 function NotFoundComponent() {
   return (
@@ -84,9 +83,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <ThemeProvider>
-          <RootInner />
-        </ThemeProvider>
+        <RootInner />
       </LanguageProvider>
     </QueryClientProvider>
   );

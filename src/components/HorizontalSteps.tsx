@@ -22,7 +22,7 @@ export function HorizontalSteps() {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-58%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[200vh] lg:h-[260vh] bg-slate-50/30 dark:bg-slate-900/5">
+    <section ref={targetRef} className="relative h-[200vh] lg:h-[260vh] bg-slate-50/30">
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 w-full grid lg:grid-cols-12 gap-10 items-center">
           
@@ -61,7 +61,7 @@ export function HorizontalSteps() {
                   
                   {/* Header: Step Number */}
                   <div className="flex justify-between items-center">
-                    <span className="font-display text-3xl font-bold text-gold/80 dark:text-gold/90 group-hover:scale-110 transition duration-300">
+                    <span className="font-display text-3xl font-bold text-gold/80 group-hover:scale-110 transition duration-300">
                       {step.n}
                     </span>
                     <span className="text-[10px] uppercase tracking-wider font-semibold bg-muted px-2 py-0.5 rounded text-muted-foreground">
