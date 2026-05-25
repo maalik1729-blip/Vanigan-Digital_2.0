@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "voter-api": "node voter-api-server.js",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-assets.js",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint ."
