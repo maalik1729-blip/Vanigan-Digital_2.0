@@ -8,15 +8,7 @@ export default defineConfig({
   plugins: [
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
-    tanstackStart({
-      server: {
-        vercel: {
-          config: {
-            runtime: "nodejs20.x"
-          }
-        }
-      }
-    }),
+    tanstackStart(),
     react(),
   ],
 });
