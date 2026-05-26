@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X, User, Phone } from "lucide-react";
 import templeLogo from "@/assets/ChatGPT Image Mar 25, 2026, 05_31_25 PM (1).png";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -21,6 +22,11 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);       // true = navbar slid up
   const [scrolled, setScrolled] = useState(false);   // true = past threshold (glass intensifies)
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const loc = useLocation();
   const { language, setLanguage } = useLanguage();
@@ -193,6 +199,7 @@ export function SiteHeader() {
           <div className="hidden md:flex items-center gap-2.5">
 
             {/* Language Toggle */}
+            {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
               aria-label={`Switch to ${language === "ta" ? "English" : "Tamil"}`}
@@ -226,10 +233,10 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* ── Mobile menu — full-screen overlay ─────────────────────────────── */}
-      {open && (
+      {/* ── Mobile menu — full-screen overlay (rendered via React Portal to document.body) ─────────────────────────────── */}
+      {open && mounted && createPortal(
         <div
-          className="md:hidden fixed inset-0 z-[60] flex flex-col"
+          className="md:hidden fixed inset-0 z-[9999] flex flex-col"
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
@@ -237,7 +244,7 @@ export function SiteHeader() {
         >
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />
@@ -353,7 +360,8 @@ export function SiteHeader() {
               </a>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
