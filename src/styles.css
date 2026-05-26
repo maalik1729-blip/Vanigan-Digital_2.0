@@ -541,6 +541,31 @@
     color: transparent !important;
     animation: text-gradient 5s ease infinite;
   }
+
+  /* === VOTER CARD RESPONSIVE SCALING === */
+  .voter-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    padding: 0.5rem 0;
+  }
+  .voter-card-scaled {
+    transform-origin: center center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+  }
+  @media (max-width: 380px) {
+    .voter-card-scaled {
+      transform: scale(0.85);
+    }
+  }
+  @media (max-width: 340px) {
+    .voter-card-scaled {
+      transform: scale(0.78);
+    }
+  }
 }
 
 
