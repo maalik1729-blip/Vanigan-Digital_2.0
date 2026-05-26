@@ -202,7 +202,7 @@ export function Assistant() {
               )}
             </p>
 
-            <form onSubmit={handleCheckStatus} className="flex gap-2 max-w-md">
+            <form onSubmit={handleCheckStatus} className="flex flex-col sm:flex-row gap-2 max-w-md w-full">
               <input
                 required
                 type="text"
@@ -214,7 +214,7 @@ export function Assistant() {
               <button
                 type="submit"
                 disabled={isSearching}
-                className="bg-primary hover:bg-primary/95 text-white font-bold py-2.5 px-5 rounded-xl text-xs active:scale-95 transition cursor-pointer min-h-[44px]"
+                className="bg-primary hover:bg-primary/95 text-white font-bold py-2.5 px-5 rounded-xl text-xs active:scale-95 transition cursor-pointer min-h-[44px] w-full sm:w-auto"
               >
                 {isSearching ? t("சரிபார்க்கிறது...", "Verifying...") : t("தேடுக", "Verify")}
               </button>
@@ -251,7 +251,7 @@ export function Assistant() {
                     </span>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div className="bg-white p-3 rounded-xl border border-slate-100 flex items-center gap-2.5 shadow-xs">
                       <User className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
                       <div>

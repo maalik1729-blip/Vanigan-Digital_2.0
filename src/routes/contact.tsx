@@ -84,7 +84,7 @@ function Contact() {
           <button
             type="submit"
             disabled={sending}
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition disabled:opacity-60 min-h-[44px]"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition disabled:opacity-60 min-h-[44px] w-full sm:w-auto"
           >
             {sending ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : "Send message"}
           </button>

@@ -213,10 +213,10 @@ function Home() {
             </p>
 
             {/* Single primary CTA + secondary text link */}
-            <div className="mt-8 flex flex-wrap items-center gap-6">
+            <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 w-full">
               <Link
                 to="/membership"
-                className="btn-primary text-base px-6 inline-flex"
+                className="btn-primary text-base px-6 w-full sm:w-auto inline-flex justify-center"
               >
                 <Users className="w-4 h-4" aria-hidden="true" />
                 {t("உறுப்பினர் சேர்க்கைக்கு விண்ணப்பிக்க", "Apply for Membership")}
@@ -225,7 +225,7 @@ function Home() {
               <Link
                 to="/voter-id"
                 search={{ q: undefined }}
-                className="text-sm font-semibold text-primary hover:underline inline-flex items-center gap-1.5"
+                className="text-sm font-semibold text-primary hover:underline inline-flex items-center justify-center sm:justify-start gap-1.5 py-2.5"
               >
                 <IdCard className="w-4 h-4" aria-hidden="true" />
                 {t("ஏற்கனவே உறுப்பினரா? என் அட்டை பெறுக →", "Already a member? Get your card →")}

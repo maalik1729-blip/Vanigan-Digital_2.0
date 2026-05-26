@@ -141,17 +141,17 @@ function Dashboard() {
               </p>
             </div>
 
-            <div className="flex gap-2.5 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto">
               <button
                 onClick={handleDownloadIdCard}
-                className="btn-primary"
+                className="btn-primary w-full sm:w-auto justify-center"
               >
                 <Download className="w-4 h-4" aria-hidden="true" />
                 {t("அட்டை பதிவிறக்கம்", "Download ID Card")}
               </button>
               <button
                 onClick={handleLogout}
-                className="btn-danger"
+                className="btn-danger w-full sm:w-auto justify-center"
               >
                 <LogOut className="w-4 h-4" aria-hidden="true" />
                 {t("வெளியேறு", "Sign Out")}
@@ -163,7 +163,7 @@ function Dashboard() {
 
       <Section className="py-4">
         {/* Full-size stationary Dribbble-style Premium Hero Promo Banner */}
-        <div className="relative overflow-hidden rounded-3xl bg-navy border border-blue-900/50 shadow-2xl flex flex-col justify-center max-w-7xl mx-auto p-8 md:p-12 min-h-[300px] select-none text-left bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-950 via-navy to-slate-950">
+        <div className="relative overflow-hidden rounded-3xl bg-navy border border-blue-900/50 shadow-2xl flex flex-col justify-center max-w-7xl mx-auto p-6 sm:p-8 md:p-12 min-h-[300px] select-none text-left bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-950 via-navy to-slate-950">
           
           {/* Tagline Row */}
           <div className="flex items-center gap-3">
