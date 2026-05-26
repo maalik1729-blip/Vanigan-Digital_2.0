@@ -299,15 +299,19 @@ function Home() {
             </p>
           </ScrollReveal>
           <ScrollReveal direction="scale" delay={0.12} duration={0.8} blur>
-            <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl aspect-video bg-slate-950/90 ring-4 ring-slate-100 flex flex-col items-center justify-center gap-3">
-              <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                <svg className="w-7 h-7 text-white/70 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p className="text-white/60 text-sm font-medium">{t("வீடியோ விரைவில்...", "Video coming soon...")}</p>
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl aspect-video bg-slate-950/90 ring-4 ring-slate-100 flex flex-col items-center justify-center">
+              <video
+                src="https://assets.mixkit.co/videos/preview/mixkit-vegetables-in-a-market-stall-4823-large.mp4"
+                className="w-full h-full object-cover"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
             </div>
           </ScrollReveal>
+
         </div>
       </Section>
 
