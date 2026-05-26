@@ -301,12 +301,9 @@ function Home() {
           <ScrollReveal direction="scale" delay={0.12} duration={0.8} blur>
             <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl aspect-video bg-slate-950/90 ring-4 ring-slate-100 flex flex-col items-center justify-center">
               <video
-                src="https://assets.mixkit.co/videos/preview/mixkit-vegetables-in-a-market-stall-4823-large.mp4"
+                src="/welcome_video.mp4"
                 className="w-full h-full object-cover"
                 controls
-                autoPlay
-                loop
-                muted
                 playsInline
               />
             </div>
