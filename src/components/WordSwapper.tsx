@@ -41,7 +41,7 @@ export function WordSwapper() {
       y: 0,
       opacity: 1,
       transition: {
-        y: { type: "spring", stiffness: 260, damping: 20 },
+        y: { type: "spring" as const, stiffness: 260, damping: 20 },
         opacity: { duration: 0.25 },
       },
     },
@@ -49,7 +49,7 @@ export function WordSwapper() {
       y: -20,
       opacity: 0,
       transition: {
-        y: { type: "spring", stiffness: 260, damping: 20 },
+        y: { type: "spring" as const, stiffness: 260, damping: 20 },
         opacity: { duration: 0.25 },
       },
     },
